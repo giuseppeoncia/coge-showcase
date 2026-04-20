@@ -136,3 +136,15 @@ button:focus-visible {
   margin: 48px 0 0;
   padding: 0;
 }
+
+.audience-bg {
+  background:
+    radial-gradient(ellipse at top, rgba(236, 72, 153, 0.06), transparent 60%),
+    var(--bg);
+}
+
+.audience-bg {
+  background:
+    radial-gradient(ellipse at top, rgba(236, 72, 153, 0.06), transparent 60%),
+    var(--bg);
+}
