@@ -41,8 +41,8 @@ Per-feature screenshots live in `public/screenshots/feature-<id>.{avif,webp}`; `
 
 `scripts/capture-screenshots.mjs` drives Puppeteer against a locally-running CoGe instance. Non-obvious gotchas baked in:
 
-- **`COGE_BASE_URL` defaults to `https://analytics.coge.orb.local`**, not `localhost`. Filament builds asset URLs (including `x-load` lazy JS bundles for `TagsInput`, `KeyValue`, etc.) from the server's `APP_URL`. When Puppeteer hits localhost, those lazy-loaded Alpine components never hydrate — forms look empty even though Livewire state has real data. Using OrbStack's HTTPS host matches `APP_URL` and everything resolves.
-- **`ignoreHTTPSErrors: true`** in the browser launch is required for the `.orb.local` self-signed cert.
+- **`COGE_BASE_URL` must match the CoGe server's `APP_URL` exactly.** Filament builds asset URLs (including `x-load` lazy JS bundles for `TagsInput`, `KeyValue`, etc.) from `APP_URL`. When Puppeteer hits a different host, those lazy-loaded Alpine components never hydrate — forms look empty even though Livewire state has real data. If `APP_URL` is `http://localhost:8000`, both must match; if the dev stack serves it under an HTTPS host (reverse proxy / container-host tool), use that.
+- **`ignoreHTTPSErrors: true`** in the browser launch is required if `APP_URL` uses a self-signed cert.
 - **Login submit on Filament uses Enter on the password field**, not `.click()` on the submit button — the button sits below the fold in the 1440×900 viewport and `page.click` misses or picks up the wrong element.
 - **After navigation, wait for hydration then scroll the page top→bottom→top** to trigger every Alpine `x-load` `IntersectionObserver`; components that stay outside the viewport never initialize in headless Chromium. Per-target `waitForText` + `settleMs` knobs handle slow Livewire pages (e.g., `business-settings` waits for the `LAB` tag pill to appear).
 - **The "Data Quality" sidebar link in Filament points at `/debug`** (Blade `DebugController`), not any `/admin/data-quality` route. There is no such admin route.
@@ -62,3 +62,35 @@ Debugbar is hidden via injected CSS. PII handling is **not** done by the capture
 ## Deploy
 
 GitHub Actions workflow at `.github/workflows/deploy.yml`. Requires repo Settings → Pages → Source = "GitHub Actions". No custom domain. Force pushes to `main` are acceptable as long as the remote is private; the history was nuked once already to purge unanonymized screenshots from pre-anonymization commits.
+
+## Release Flow
+
+This is a fixed, deterministic process. Follow it exactly every time, starting from `develop`.
+
+**Step 1 — on `develop`:** move `[Unreleased]` content to a new versioned section `[X.Y.Z] - YYYY-MM-DD`, leave `[Unreleased]` empty. Bump `"version"` in `package.json` to `X.Y.Z`. Commit and push to GitHub:
+
+```bash
+git add CHANGELOG.md package.json
+git commit -m "chore(release): update CHANGELOG for X.Y.Z"
+git push origin develop
+```
+
+**Step 2 — merge to `main` and tag:**
+
+```bash
+git checkout main
+git merge develop --no-ff
+git tag vX.Y.Z
+```
+
+**Step 3 — push `main` and tag to remote:**
+
+```bash
+git push origin main && git push origin vX.Y.Z
+```
+
+**Step 4 — return to `develop`:**
+
+```bash
+git checkout develop
+```

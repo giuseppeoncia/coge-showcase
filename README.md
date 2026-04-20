@@ -47,7 +47,7 @@ Variables:
 |--------------------|---------------------------------|----------------------------------------------------------|
 | `COGE_EMAIL`       | `scripts/capture-screenshots.mjs` | Admin login email for Filament + Blade auth              |
 | `COGE_PASSWORD`    | `scripts/capture-screenshots.mjs` | Admin login password                                     |
-| `COGE_BASE_URL`    | `scripts/capture-screenshots.mjs` | Local CoGe URL (defaults to OrbStack `analytics.coge.orb.local`) |
+| `COGE_BASE_URL`    | `scripts/capture-screenshots.mjs` | Local CoGe URL; must match the server's `APP_URL` (see `.env.example`)    |
 | `MONGO_USER`       | `scripts/anonymize-db.js` (via shell) | Mongo auth user for the local dev container              |
 | `MONGO_PASSWORD`   | `scripts/anonymize-db.js` (via shell) | Mongo auth password for the local dev container          |
 | `MONGO_DB`         | `scripts/anonymize-db.js` (via shell) | Target database name (e.g. `coge_db`)                    |

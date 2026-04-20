@@ -3,7 +3,11 @@ import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const BASE = process.env.COGE_BASE_URL || 'https://analytics.coge.orb.local';
+const BASE = process.env.COGE_BASE_URL;
+if (!BASE) {
+  console.error('Set COGE_BASE_URL (see .env.example). Must match the CoGe server APP_URL.');
+  process.exit(1);
+}
 const EMAIL = process.env.COGE_EMAIL;
 const PASSWORD = process.env.COGE_PASSWORD;
 const OUT = 'public/screenshots';
