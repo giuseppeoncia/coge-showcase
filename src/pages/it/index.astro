@@ -10,8 +10,10 @@ import { getCollection } from 'astro:content';
 import FeatureCard from '../../components/FeatureCard.astro';
 import TechCard from '../../components/TechCard.astro';
 import ArchitectureDiagram from '../../components/illustrations/ArchitectureDiagram.astro';
+import TimelineItem from '../../components/TimelineItem.astro';
 
 const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
+const milestones = (await getCollection('milestones')).sort((a, b) => a.data.date.localeCompare(b.data.date));
 ---
 <BaseLayout
   title="CoGe · Cost Governance"
@@ -79,6 +81,21 @@ const features = (await getCollection('features')).sort((a, b) => a.data.order -
           Due layer sopra lo stesso MongoDB: una dashboard Blade read-only per la lettura, un admin
           Filament per la scrittura. Coda Redis per import e job pesanti.
         </p>
+      </div>
+    </section>
+    <section id="evolution" class="chapter">
+      <div class="container narrow">
+        <ChapterDivider label="Capitolo" number="05" title="Evoluzione" />
+        <ol class="timeline" role="list">
+          {milestones.map((m) => (
+            <TimelineItem
+              version={m.data.version}
+              date={m.data.date}
+              title={m.data.title_it}
+              blurb={m.data.blurb_it}
+            />
+          ))}
+        </ol>
       </div>
     </section>
   </main>

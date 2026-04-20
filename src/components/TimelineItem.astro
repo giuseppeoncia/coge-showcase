@@ -1,0 +1,53 @@
+---
+interface Props {
+  version: string;
+  date: string;
+  title: string;
+  blurb: string;
+}
+const { version, date, title, blurb } = Astro.props;
+---
+<li class="timeline-item">
+  <div class="pip" aria-hidden="true"></div>
+  <div class="meta">
+    <p class="tag mono">v{version} · {date}</p>
+    <h3>{title}</h3>
+    <p class="blurb">{blurb}</p>
+  </div>
+</li>
+
+<style>
+  .timeline-item {
+    position: relative;
+    padding-left: 48px;
+    padding-block: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: -20px;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-item:last-child::before { display: none; }
+  .pip {
+    position: absolute;
+    left: 8px;
+    top: 24px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gradient);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+  .tag {
+    margin: 0 0 4px;
+    color: var(--primary-600);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .blurb { margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.55; }
+</style>
