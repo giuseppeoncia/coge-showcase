@@ -6,6 +6,10 @@ import Hero from '../../components/Hero.astro';
 import ChapterDivider from '../../components/ChapterDivider.astro';
 import ProblemIllustration from '../../components/illustrations/ProblemIllustration.astro';
 import PillarCard from '../../components/PillarCard.astro';
+import { getCollection } from 'astro:content';
+import FeatureCard from '../../components/FeatureCard.astro';
+
+const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
 ---
 <BaseLayout
   title="CoGe · Cost Governance"
@@ -36,6 +40,24 @@ import PillarCard from '../../components/PillarCard.astro';
           <PillarCard icon="📈" title="Budget & Forecast" body="Pianificazione ricavi e costi con scostamento su consuntivo." />
           <PillarCard icon="🧭" title="Resource Planning" body="Carico di lavoro, produttività, matrice skill." />
           <PillarCard icon="📊" title="Analytics" body="Dashboard read-only su dati live." />
+        </div>
+      </div>
+    </section>
+    <section id="features" class="chapter">
+      <div class="container">
+        <ChapterDivider label="Capitolo" number="03" title="Feature Tour" />
+        <div class="features-grid">
+          {features.map((f) => (
+            <FeatureCard
+              lang="it"
+              icon={f.data.icon}
+              titleIt={f.data.title_it}
+              titleEn={f.data.title_en}
+              bodyIt={f.data.body_it}
+              bodyEn={f.data.body_en}
+              screenshot={f.data.screenshot}
+            />
+          ))}
         </div>
       </div>
     </section>
