@@ -1,0 +1,48 @@
+---
+import HeroIllustration from './illustrations/HeroIllustration.astro';
+
+interface Props {
+  headline: string;
+  sub: string;
+}
+const { headline, sub } = Astro.props;
+---
+<section class="hero" id="top">
+  <div class="container grid">
+    <div class="copy">
+      <h1>{headline}</h1>
+      <p class="sub">{sub}</p>
+    </div>
+    <HeroIllustration />
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(64px, 10vw, 140px);
+    background:
+      radial-gradient(ellipse at top right, rgba(236, 72, 153, 0.08), transparent 60%),
+      radial-gradient(ellipse at top left, rgba(99, 102, 241, 0.08), transparent 60%);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  h1 {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .sub {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    color: var(--text-muted);
+    margin-top: 20px;
+    max-width: 52ch;
+  }
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>
