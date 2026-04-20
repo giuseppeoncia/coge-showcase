@@ -3,6 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Hero from '../../components/Hero.astro';
+import ChapterDivider from '../../components/ChapterDivider.astro';
+import ProblemIllustration from '../../components/illustrations/ProblemIllustration.astro';
 ---
 <BaseLayout
   title="CoGe · Cost Governance"
@@ -15,6 +17,16 @@ import Hero from '../../components/Hero.astro';
       headline="Cost and resource governance. One place."
       sub="CoGe unifies cost allocation, budgets, timesheets and analytics for business units that want to know exactly where every euro goes."
     />
+    <section id="problem" class="chapter">
+      <div class="container">
+        <ChapterDivider label="Chapter" number="01" title="The Problem" />
+        <p class="narrative">
+          Scattered spreadsheets, late timesheets, budgets no one reconciles. Real costs surface at
+          quarter-end, when it's too late. <strong>CoGe moves the truth of the numbers from Q+1 to day one.</strong>
+        </p>
+        <ProblemIllustration />
+      </div>
+    </section>
   </main>
   <Footer lang="en" />
 </BaseLayout>

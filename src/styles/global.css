@@ -80,3 +80,13 @@ button:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 3px;
 }
+
+.narrative {
+  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
+  color: var(--text);
+  max-width: 62ch;
+  margin-inline: auto;
+  text-align: center;
+  line-height: 1.55;
+}
+.narrative strong { color: var(--primary-600); font-weight: 600; }
