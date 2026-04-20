@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import Hero from '../../components/Hero.astro';
 import ChapterDivider from '../../components/ChapterDivider.astro';
 import ProblemIllustration from '../../components/illustrations/ProblemIllustration.astro';
+import PillarCard from '../../components/PillarCard.astro';
 ---
 <BaseLayout
   title="CoGe · Cost Governance"
@@ -25,6 +26,17 @@ import ProblemIllustration from '../../components/illustrations/ProblemIllustrat
           a consuntivo, quando è tardi. <strong>CoGe sposta la verità dei numeri dal Q+1 al giorno 1.</strong>
         </p>
         <ProblemIllustration />
+      </div>
+    </section>
+    <section id="pillars" class="chapter">
+      <div class="container">
+        <ChapterDivider label="Capitolo" number="02" title="Cosa Fa CoGe" />
+        <div class="pillars-grid">
+          <PillarCard icon="💶" title="Cost Allocation" body="Tracking per progetto, cliente, business unit, con ciclo di vita draft → published." />
+          <PillarCard icon="📈" title="Budget & Forecast" body="Pianificazione ricavi e costi con scostamento su consuntivo." />
+          <PillarCard icon="🧭" title="Resource Planning" body="Carico di lavoro, produttività, matrice skill." />
+          <PillarCard icon="📊" title="Analytics" body="Dashboard read-only su dati live." />
+        </div>
       </div>
     </section>
   </main>

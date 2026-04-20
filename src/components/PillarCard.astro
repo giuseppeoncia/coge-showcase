@@ -1,0 +1,39 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  body: string;
+}
+const { icon, title, body } = Astro.props;
+---
+<article class="pillar">
+  <div class="icon" aria-hidden="true">{icon}</div>
+  <h3>{title}</h3>
+  <p>{body}</p>
+</article>
+
+<style>
+  .pillar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .pillar:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -16px rgba(99, 102, 241, 0.25);
+  }
+  .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: var(--hover-tint);
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  h3 { margin: 0 0 10px; }
+  p { margin: 0; color: var(--text-muted); font-size: 15px; }
+</style>
