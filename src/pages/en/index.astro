@@ -8,6 +8,8 @@ import ProblemIllustration from '../../components/illustrations/ProblemIllustrat
 import PillarCard from '../../components/PillarCard.astro';
 import { getCollection } from 'astro:content';
 import FeatureCard from '../../components/FeatureCard.astro';
+import TechCard from '../../components/TechCard.astro';
+import ArchitectureDiagram from '../../components/illustrations/ArchitectureDiagram.astro';
 
 const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
 ---
@@ -59,6 +61,24 @@ const features = (await getCollection('features')).sort((a, b) => a.data.order -
             />
           ))}
         </div>
+      </div>
+    </section>
+    <section id="tech" class="chapter tech-bg">
+      <div class="container">
+        <ChapterDivider label="Chapter" number="04" title="Under the Hood" />
+        <div class="tech-grid">
+          <TechCard name="Laravel" version="12" role="Application framework" />
+          <TechCard name="Filament" version="3" role="Admin panel" />
+          <TechCard name="MongoDB" version="8" role="Document database" />
+          <TechCard name="PHP" version="8.5" role="Runtime" />
+          <TechCard name="Docker Compose" version="—" role="Local dev + deploy" />
+          <TechCard name="Redis" version="—" role="Queue & cache" />
+        </div>
+        <ArchitectureDiagram lang="en" />
+        <p class="narrative small">
+          Two layers over the same MongoDB: a read-only Blade dashboard for consumption, a Filament
+          admin for writes. Redis queue for imports and heavy jobs.
+        </p>
       </div>
     </section>
   </main>
