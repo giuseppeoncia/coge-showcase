@@ -1,0 +1,17 @@
+{
+  "nav.problem": "Il Problema",
+  "nav.pillars": "Cosa Fa",
+  "nav.features": "Feature",
+  "nav.tech": "Sotto il Cofano",
+  "nav.evolution": "Evoluzione",
+  "nav.audience": "Per Chi",
+  "lang.label": "Lingua",
+  "lang.it": "IT",
+  "lang.en": "EN",
+  "chapter": "Capitolo",
+  "footer.repo": "Repository",
+  "footer.email": "Contatto",
+  "footer.copyright": "© {year} Giuseppe Oncia. Tutti i diritti riservati.",
+  "404.title": "Pagina non trovata",
+  "404.back": "Torna alla home"
+}

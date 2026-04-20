@@ -1,0 +1,17 @@
+{
+  "nav.problem": "The Problem",
+  "nav.pillars": "What It Does",
+  "nav.features": "Features",
+  "nav.tech": "Under the Hood",
+  "nav.evolution": "Evolution",
+  "nav.audience": "Who It's For",
+  "lang.label": "Language",
+  "lang.it": "IT",
+  "lang.en": "EN",
+  "chapter": "Chapter",
+  "footer.repo": "Repository",
+  "footer.email": "Contact",
+  "footer.copyright": "© {year} Giuseppe Oncia. All rights reserved.",
+  "404.title": "Page not found",
+  "404.back": "Back to home"
+}
