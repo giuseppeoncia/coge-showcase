@@ -1,0 +1,93 @@
+---
+import { t, type Lang } from '../i18n';
+import LangToggle from './LangToggle.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const anchors = [
+  ['#problem', t('nav.problem', lang)],
+  ['#pillars', t('nav.pillars', lang)],
+  ['#features', t('nav.features', lang)],
+  ['#tech', t('nav.tech', lang)],
+  ['#evolution', t('nav.evolution', lang)],
+  ['#audience', t('nav.audience', lang)],
+] as const;
+---
+<header class="site-header" id="site-header">
+  <div class="container row">
+    <a href="#top" class="wordmark">
+      <span class="w1">CoGe</span>
+      <span class="dot">·</span>
+      <span class="w2">Cost Governance</span>
+    </a>
+    <nav aria-label="Chapters">
+      <ul>
+        {anchors.map(([href, label]) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </nav>
+    <LangToggle lang={lang} />
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('compact', window.scrollY > 80);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 250, 250, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: padding 0.2s ease, border-color 0.2s ease;
+    padding-block: 20px;
+    border-bottom: 1px solid transparent;
+  }
+  .site-header.compact {
+    padding-block: 10px;
+    border-bottom-color: var(--border);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .wordmark {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    font-size: 16px;
+  }
+  .wordmark .dot { margin-inline: 6px; color: var(--primary); }
+  .wordmark .w2 { color: var(--text-muted); font-weight: 500; }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  nav a:hover { color: var(--primary-600); }
+
+  @media (max-width: 1024px) {
+    nav { display: none; }
+  }
+</style>
