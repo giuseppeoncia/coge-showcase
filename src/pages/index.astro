@@ -1,3 +1,35 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const itHref = `${base}/it/`;
+const enHref = `${base}/en/`;
 ---
-<html lang="it"><body>scaffold OK</body></html>
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CoGe · Cost Governance</title>
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${itHref}`} />
+    <script is:inline define:vars={{ itHref, enHref }}>
+      (function () {
+        try {
+          var stored = localStorage.getItem('coge-showcase-lang');
+          if (stored === 'it' || stored === 'en') {
+            location.replace(stored === 'en' ? enHref : itHref);
+            return;
+          }
+          var nav = (navigator.language || 'it').toLowerCase();
+          location.replace(nav.startsWith('it') ? itHref : enHref);
+        } catch (e) {
+          location.replace(itHref);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>
+      <a href={itHref}>Italiano</a> · <a href={enHref}>English</a>
+    </p>
+  </body>
+</html>
