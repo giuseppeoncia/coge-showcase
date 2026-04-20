@@ -4,25 +4,25 @@ const itHref = `${base}/it/`;
 const enHref = `${base}/en/`;
 ---
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CoGe · Cost Governance</title>
     <meta name="robots" content="noindex" />
-    <meta http-equiv="refresh" content={`0;url=${itHref}`} />
+    <meta http-equiv="refresh" content={`0;url=${enHref}`} />
     <script is:inline define:vars={{ itHref, enHref }}>
       (function () {
         try {
           var stored = localStorage.getItem('coge-showcase-lang');
           if (stored === 'it' || stored === 'en') {
-            location.replace(stored === 'en' ? enHref : itHref);
+            location.replace(stored === 'it' ? itHref : enHref);
             return;
           }
-          var nav = (navigator.language || 'it').toLowerCase();
+          var nav = (navigator.language || 'en').toLowerCase();
           location.replace(nav.startsWith('it') ? itHref : enHref);
         } catch (e) {
-          location.replace(itHref);
+          location.replace(enHref);
         }
       })();
     </script>

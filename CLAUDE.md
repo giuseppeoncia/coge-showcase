@@ -23,7 +23,7 @@ npx vitest run src/i18n/index.test.ts
 
 **Two first-class locale pages, not a translation layer.** `src/pages/it/index.astro` and `src/pages/en/index.astro` duplicate narrative content intentionally. Short UI strings route through `t(key, lang)` in `src/i18n/index.ts`, which asserts IT/EN key parity at build time via `assertParity()` (covered by a vitest).
 
-**Root index is a client-side redirect**, not an Astro i18n default. `src/pages/index.astro` detects `localStorage.coge-showcase-lang` → `navigator.language` → falls back to `/it/`. This requires `i18n.routing.redirectToDefaultLocale: false` in `astro.config.mjs`, otherwise Astro generates its own redirect page and our custom `<script>` never ships.
+**Root index is a client-side redirect**, not an Astro i18n default. `src/pages/index.astro` detects `localStorage.coge-showcase-lang` → `navigator.language` (only `it*` → `/it/`) → falls back to `/en/`. This requires `i18n.routing.redirectToDefaultLocale: false` in `astro.config.mjs`, otherwise Astro generates its own redirect page and our custom `<script>` never ships.
 
 **Everything under `src/pages/{it,en}` must prefix internal links with `import.meta.env.BASE_URL`.** A hard-coded `/features/...` would 404 in production because the site is served under `/coge-showcase/`. `src/components/Link.astro` wraps this; new internal links should route through it (or replicate the prefix logic inline). A few direct anchors in `public/404.html` are hardcoded because `public/` files are not templated — update them manually if the base path changes.
 
