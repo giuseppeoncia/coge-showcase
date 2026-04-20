@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ScrollReveal from '../components/ScrollReveal.astro';
 
 interface Props {
   title: string;
@@ -26,5 +27,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
   </head>
   <body>
     <slot />
+    <ScrollReveal />
   </body>
 </html>
