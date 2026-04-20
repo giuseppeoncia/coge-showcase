@@ -16,7 +16,7 @@ The site is built as a new public repository `coge-showcase` under `github.com/g
 - Work equally well in Italian and English with a user-facing language toggle.
 - Showcase real product screenshots for credibility plus custom illustrations for hero/emotional sections.
 - Deploy zero-cost on GitHub Pages from a public repository, no custom domain initially.
-- Stay fully brand-agnostic — no mention of Synclab or any employing company.
+- Stay fully brand-agnostic — no mention of the author's employing company or any other real customer/brand name.
 
 ## Non-Goals (v1)
 

@@ -1,0 +1,119 @@
+---
+---
+<dialog id="lightbox" aria-labelledby="lightbox-caption">
+  <button class="close" type="button" aria-label="Close">&times;</button>
+  <picture class="lightbox-media">
+    <source id="lightbox-avif" type="image/avif" />
+    <source id="lightbox-webp" type="image/webp" />
+    <img id="lightbox-img" alt="" decoding="async" />
+  </picture>
+  <p id="lightbox-caption" class="caption"></p>
+</dialog>
+
+<script is:inline>
+  (function () {
+    const dialog = document.getElementById('lightbox');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    const img = document.getElementById('lightbox-img');
+    const avif = document.getElementById('lightbox-avif');
+    const webp = document.getElementById('lightbox-webp');
+    const caption = document.getElementById('lightbox-caption');
+    const closeBtn = dialog.querySelector('.close');
+
+    function open(btn) {
+      const a = btn.dataset.avif;
+      const w = btn.dataset.webp;
+      const c = btn.dataset.caption || '';
+      avif.srcset = a || '';
+      webp.srcset = w || '';
+      img.src = w || '';
+      img.alt = c;
+      caption.textContent = c;
+      dialog.showModal();
+    }
+    function close() { dialog.close(); }
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.thumb-trigger');
+      if (btn) { e.preventDefault(); open(btn); }
+    });
+    closeBtn.addEventListener('click', close);
+    // close on backdrop click (when target is dialog itself, not its contents)
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog) close();
+    });
+  })();
+</script>
+
+<style is:global>
+  #lightbox {
+    padding: 0;
+    border: none;
+    background: transparent;
+    max-width: min(1200px, 95vw);
+    max-height: 95vh;
+    overflow: visible;
+  }
+  #lightbox::backdrop {
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  #lightbox[open] {
+    animation: lightbox-in 0.25s ease-out;
+  }
+  @keyframes lightbox-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  #lightbox .lightbox-media {
+    display: block;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.5);
+  }
+  #lightbox img {
+    width: 100%;
+    height: auto;
+    max-height: calc(95vh - 80px);
+    object-fit: contain;
+    display: block;
+  }
+  #lightbox .caption {
+    margin: 16px 0 0;
+    color: #f1f5f9;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+  }
+  #lightbox .close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  #lightbox .close:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: rotate(90deg);
+  }
+  #lightbox .close:focus-visible {
+    outline: 2px solid var(--primary, #6366f1);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #lightbox[open] { animation: none; }
+    #lightbox .close { transition: none; }
+    #lightbox .close:hover { transform: none; }
+  }
+</style>
