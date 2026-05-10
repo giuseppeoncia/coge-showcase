@@ -61,36 +61,57 @@ Debugbar is hidden via injected CSS. PII handling is **not** done by the capture
 
 ## Deploy
 
-GitHub Actions workflow at `.github/workflows/deploy.yml`. Requires repo Settings → Pages → Source = "GitHub Actions". No custom domain. Force pushes to `main` are acceptable as long as the remote is private; the history was nuked once already to purge unanonymized screenshots from pre-anonymization commits.
+Two GitHub Actions workflows:
+
+- `.github/workflows/deploy.yml` — runs on push to `main` (and `workflow_dispatch`). Type-check, test, build, then deploy to GitHub Pages. Requires repo Settings → Pages → Source = "GitHub Actions". No custom domain.
+- `.github/workflows/ci.yml` — runs on `pull_request` targeting `main`. Same check/test/build steps but **no deploy**. Job name `build` matches the required status check enforced by the branch ruleset on `main`.
+
+The repo is **public**, and `main` is protected by a GitHub branch ruleset:
+
+- Direct pushes to `main` are rejected — changes must go through a pull request.
+- The required status check is `build`, supplied by `ci.yml` on the PR head. Force pushes are also blocked, regardless of `--force-with-lease`.
+
+The history was nuked once already (back when the repo was private) to purge unanonymized screenshots from pre-anonymization commits; equivalent surgery now requires temporarily disabling the ruleset.
 
 ## Release Flow
 
 This is a fixed, deterministic process. Follow it exactly every time, starting from `develop`.
 
-**Step 1 — on `develop`:** move `[Unreleased]` content to a new versioned section `[X.Y.Z] - YYYY-MM-DD`, leave `[Unreleased]` empty. Bump `"version"` in `package.json` to `X.Y.Z`. Commit and push to GitHub:
+**Step 1 — on `develop`:** move `[Unreleased]` content to a new versioned section `[X.Y.Z] - YYYY-MM-DD`, leave `[Unreleased]` empty. Bump `"version"` in `package.json` (and the matching two `"version"` fields at the top of `package-lock.json`) to `X.Y.Z`. Commit and push to GitHub:
 
 ```bash
-git add CHANGELOG.md package.json
+git add CHANGELOG.md package.json package-lock.json
 git commit -m "chore(release): update CHANGELOG for X.Y.Z"
 git push origin develop
 ```
 
-**Step 2 — merge to `main` and tag:**
+**Step 2 — open PR `develop → main`:** the branch ruleset rejects direct pushes, so a PR is mandatory. With `gh` installed:
+
+```bash
+gh pr create --base main --head develop \
+  --title "Release vX.Y.Z" \
+  --body "Release notes: see CHANGELOG.md [X.Y.Z] section."
+```
+
+Without `gh`, open `https://github.com/giuseppeoncia/coge-showcase/compare/main...develop` in a browser, or POST to `https://api.github.com/repos/giuseppeoncia/coge-showcase/pulls` using the token from `git credential fill`.
+
+**Step 3 — wait for `build` check, then merge:** the `ci.yml` workflow runs on the PR and reports the required `build` status. Once green, merge via `gh pr merge --merge <PR#>` or the GitHub UI. Pushing the merge fast-forwards `origin/main`, which in turn triggers `deploy.yml` and ships to Pages.
+
+**Step 4 — fetch the merge commit and tag it on `main`:**
 
 ```bash
 git checkout main
-git merge develop --no-ff
-git tag vX.Y.Z
+git pull origin main
+git tag vX.Y.Z          # tags the merge commit at HEAD of main
+git push origin vX.Y.Z
 ```
 
-**Step 3 — push `main` and tag to remote:**
-
-```bash
-git push origin main && git push origin vX.Y.Z
-```
-
-**Step 4 — return to `develop`:**
+**Step 5 — return to `develop`:**
 
 ```bash
 git checkout develop
 ```
+
+Notes:
+- Do **not** create the tag locally before the PR merges — its target SHA only exists after GitHub produces the merge commit, and tagging the local pre-merge merge commit will diverge from `origin/main`.
+- If a release ever needs to be reverted, revert via a follow-up PR (a `git revert` commit on `develop` → PR → merge). Rewriting `main` is blocked by the ruleset.
