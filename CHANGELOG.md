@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-05-10
+
+### Changed
+- Renamed the "Financials" feature and milestone (`v3.13`) to "Economics", mirroring the upstream CoGe rename of `/financials` to `/economics`. Updated the feature collection entry (id, IT/EN titles, screenshot reference), the v3.13 milestone titles, the capture-script target, and the route table in `docs/screenshots-capture.md`.
+- Re-captured `feature-economics.{avif,webp}` against the new `/economics` route.
+
+### Added
+- `ONLY=<id[,id…]>` env filter in `scripts/capture-screenshots.mjs` for targeted screenshot reruns without re-capturing every feature.
+
 ## [0.1.0] - 2026-04-20
 
 ### Added

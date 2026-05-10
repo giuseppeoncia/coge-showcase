@@ -29,7 +29,7 @@ const targets = [
   { id: 'productivity',      path: '/productivity' },
   { id: 'skills-matrix',     path: '/skills' },
   { id: 'data-quality',      path: '/debug' },
-  { id: 'financials',        path: '/financials' },
+  { id: 'economics',         path: '/economics' },
   {
     id: 'business-settings',
     path: '/admin/settings-page',
@@ -157,7 +157,11 @@ async function toFormats(png, id) {
   await loginFilament(page);
   await loginBlade(page);
 
-  for (const target of targets) {
+  const only = process.env.ONLY?.split(',').map((s) => s.trim()).filter(Boolean);
+  const selected = only?.length ? targets.filter((t) => only.includes(t.id)) : targets;
+  if (only?.length) console.log(`Filtering to: ${selected.map((t) => t.id).join(', ') || '(none matched)'}`);
+
+  for (const target of selected) {
     const png = `tmp-captures/${target.id}.png`;
     console.log(`Capturing ${target.id} ← ${target.path}`);
     try {
