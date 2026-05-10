@@ -39,7 +39,7 @@ Open `http://localhost:8000/admin`, log in with the seeded admin user (see `coge
 | productivity      | `/admin/productivity`             |
 | skills-matrix     | `/admin/skills-matrix`            |
 | data-quality      | `/admin/data-quality`             |
-| financials        | `/admin/financials`               |
+| economics         | `/admin/economics`                |
 | business-settings | `/admin/business-settings`        |
 | role-admin        | `/admin/users`                    |
 
