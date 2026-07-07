@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Feature-tour entry and milestone for the **Odoo ERP integration (SyncERP)**: scheduled one-directional sync of resources, cost matrix, and timesheets, plus ERP customer/project reconciliation.
+- Feature-tour entry and milestone for the **GAIA virtual assistant**: natural-language analytics Q&A on a local LLM with an audit trail and anti-hallucination guardrails.
+
 ## [0.1.1] - 2026-05-10
 
 ### Changed

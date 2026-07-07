@@ -38,6 +38,29 @@ const targets = [
     waitForText: 'LAB',
   },
   { id: 'role-admin',        path: '/admin/users' },
+  { id: 'erp-integration',   path: '/admin/erp-project-maps' },
+  {
+    id: 'gaia',
+    path: '/economics',
+    interact: async (page) => {
+      await page.click('#gaia-fab');
+      await page.waitForSelector('#gaiaModal.show', { visible: true, timeout: 10000 });
+      await page.type('#gaiaQuestion', "Com'è andata la produttività della unit WMA nel 2025?");
+      await page.click('#gaiaForm button[type="submit"]');
+      // la risposta è generata da un LLM locale (lento): attendi che #gaiaResult
+      // contenga la risposta narrata vera (testo sostanzioso) e non più lo spinner.
+      await page.waitForFunction(
+        () => {
+          const r = document.querySelector('#gaiaResult');
+          if (!r) return false;
+          if (r.querySelector('.spinner-border, [role="status"]')) return false;
+          return r.innerText.trim().length > 80;
+        },
+        { timeout: 180000, polling: 1000 }
+      );
+      await new Promise((r) => setTimeout(r, 2000));
+    },
+  },
 ];
 
 async function loginFilament(page) {
@@ -128,6 +151,10 @@ async function capture(page, target, outPng) {
       { timeout: 15000 },
       target.waitForText
     ).catch(() => console.warn(`  (waitForText "${target.waitForText}" never satisfied)`));
+  }
+
+  if (target.interact) {
+    await target.interact(page);
   }
 
   const settle = target.settleMs ?? 1500;

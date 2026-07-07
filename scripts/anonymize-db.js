@@ -192,4 +192,39 @@ db.cost_allocation_codes.find({ description: /Resources:/ }).forEach((doc) => {
 print(`cost_allocation_codes (Resources: desc): ${cacCount} (${DRY ? 'dry-run' : 'updated'})`);
 cacSamples.forEach((s) => print(`  "${s.from}"  ->  "${s.to}"`));
 
+// ============================================================
+// 5. ERP maps (partnerName / erpName) — raw ERP customer names,
+//    not covered by the customers pass. Keyed on the name string
+//    so the same real name maps to the same fake one.
+// ============================================================
+let erpProjCount = 0;
+const erpProjSamples = [];
+db.erp_project_map.find({ partnerName: { $exists: true, $ne: null } }).forEach((doc) => {
+  const newName = pick(FAKE_CUSTOMERS, 'ERP:' + doc.partnerName);
+  if (erpProjSamples.length < 5) {
+    erpProjSamples.push({ from: doc.partnerName, to: newName });
+  }
+  if (!DRY) {
+    db.erp_project_map.updateOne({ _id: doc._id }, { $set: { partnerName: newName } });
+  }
+  erpProjCount++;
+});
+print(`erp_project_map (partnerName): ${erpProjCount} (${DRY ? 'dry-run' : 'updated'})`);
+erpProjSamples.forEach((s) => print(`  ${s.from}  ->  ${s.to}`));
+
+let erpCustCount = 0;
+const erpCustSamples = [];
+db.erp_customer_map.find({ erpName: { $exists: true, $ne: null } }).forEach((doc) => {
+  const newName = pick(FAKE_CUSTOMERS, 'ERP:' + doc.erpName);
+  if (erpCustSamples.length < 5) {
+    erpCustSamples.push({ from: doc.erpName, to: newName });
+  }
+  if (!DRY) {
+    db.erp_customer_map.updateOne({ _id: doc._id }, { $set: { erpName: newName } });
+  }
+  erpCustCount++;
+});
+print(`erp_customer_map (erpName): ${erpCustCount} (${DRY ? 'dry-run' : 'updated'})`);
+erpCustSamples.forEach((s) => print(`  ${s.from}  ->  ${s.to}`));
+
 print(DRY ? '\nDRY RUN — no data changed.' : '\nAnonymization complete.');
