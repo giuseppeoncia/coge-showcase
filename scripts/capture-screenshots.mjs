@@ -45,7 +45,7 @@ const targets = [
     interact: async (page) => {
       await page.click('#gaia-fab');
       await page.waitForSelector('#gaiaModal.show', { visible: true, timeout: 10000 });
-      await page.type('#gaiaQuestion', "Com'è andata la produttività della unit WMA nel 2025?");
+      await page.type('#gaiaQuestion', 'Ricavi e costi della unit WMA nel 2026');
       await page.click('#gaiaForm button[type="submit"]');
       // la risposta è generata da un LLM locale (lento): attendi che #gaiaResult
       // contenga la risposta narrata vera (testo sostanzioso) e non più lo spinner.
