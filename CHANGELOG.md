@@ -7,10 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-07-07
+
+### Changed
+- Reworded the Odoo ERP feature and milestone copy for a non-technical audience (dropped the internal integration name and config-flag reference).
+- The "Evolution" timeline now lists the newest releases first.
+- Added an on-premise "Local LLM" entry to the "Under the Hood" tech stack, reflecting GAIA's local inference (model unspecified).
+- Re-captured the GAIA screenshot to show a concise economic answer alongside its audit trail (function, parameters, query, raw data).
+
 ## [0.2.0] - 2026-07-07
 
 ### Added
-- Feature-tour entry and milestone for the **Odoo ERP integration (SyncERP)**: scheduled one-directional sync of resources, cost matrix, and timesheets, plus ERP customer/project reconciliation.
+- Feature-tour entry and milestone for the **Odoo ERP integration**: automatic sync of resources, cost matrix, and timesheets, plus guided customer/project reconciliation.
 - Feature-tour entry and milestone for the **GAIA virtual assistant**: natural-language analytics Q&A on a local LLM with an audit trail and anti-hallucination guardrails.
 
 ## [0.1.1] - 2026-05-10

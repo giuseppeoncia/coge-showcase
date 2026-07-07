@@ -13,7 +13,7 @@ import ArchitectureDiagram from '../../components/illustrations/ArchitectureDiag
 import TimelineItem from '../../components/TimelineItem.astro';
 
 const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
-const milestones = (await getCollection('milestones')).sort((a, b) => a.data.date.localeCompare(b.data.date));
+const milestones = (await getCollection('milestones')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 ---
 <BaseLayout
   title="CoGe · Cost Governance"
@@ -75,11 +75,13 @@ const milestones = (await getCollection('milestones')).sort((a, b) => a.data.dat
           <TechCard name="PHP" version="8.5" role="Runtime" />
           <TechCard name="Docker Compose" version="—" role="Sviluppo locale e deploy" />
           <TechCard name="Redis" version="—" role="Queue & cache" />
+          <TechCard name="LLM locale" version="—" role="Assistente GAIA on-premise" />
         </div>
         <ArchitectureDiagram lang="it" />
         <p class="narrative small">
           Due layer sopra lo stesso MongoDB: una dashboard Blade read-only per la lettura, un admin
-          Filament per la scrittura. Coda Redis per import e job pesanti.
+          Filament per la scrittura. Coda Redis per import e job pesanti. GAIA gira su un LLM locale,
+          così i numeri non lasciano l'infrastruttura.
         </p>
       </div>
     </section>
